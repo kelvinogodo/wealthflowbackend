@@ -70,7 +70,7 @@ app.post(
 
     try {
       // Check if the user already exists
-      const existingUser = await User.findOne({ $or: [{ email }, { username: userName }] });
+      const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.status(409).json({ status: 'error', message: 'Email or username already exists' });
       }
