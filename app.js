@@ -30,7 +30,7 @@ mongoose.connect(process.env.ATLAS_URI).then(() => {
 app.get('/api/verify', async (req, res) => {
   const token = req.headers['x-access-token']
   try {
-    const decode = jwt.verify(token, 'secret1258')
+    const decode = jwt.verify(token, jwtSecret)
     const email = decode.email
     const user = await User.findOne({ email: email })
     if(user.rememberme){
@@ -234,7 +234,7 @@ app.get('/api/getData', async (req, res) => {
 app.post('/api/updateUserData', async(req,res)=>{
   const token = req.headers['x-access-token']
   try {
-    const decode = jwt.verify(token, 'secret1258')
+    const decode = jwt.verify(token, jwtSecret)
     const email = decode.email
     const user = await User.findOne({ email: email })
     if(user && req.body.profilepicture !== undefined){
@@ -385,7 +385,7 @@ app.post('/api/upgradeUser', async (req, res) => {
 app.post('/api/withdraw', async (req, res) => {
   const token = req.headers['x-access-token']
   try {
-    const decode = jwt.verify(token, 'secret1258')
+    const decode = jwt.verify(token, jwtSecret)
     const email = decode.email
     const user = await User.findOne({ email: email })
     if (user.funded >= req.body.WithdrawAmount ) {
@@ -442,7 +442,7 @@ app.post('/api/withdraw', async (req, res) => {
 app.post('/api/sendproof', async (req,res)=>{
   const token = req.headers['x-access-token']
   try {
-    const decode = jwt.verify(token, 'secret1258')
+    const decode = jwt.verify(token, jwtSecret)
     const email = decode.email
     const user = await User.findOne({ email: email })
     if(user){
@@ -459,8 +459,9 @@ app.post('/api/sendproof', async (req,res)=>{
     else{
       return res.json({status:500})
     }
-    } catch (error) {
-      res.json({status:404})
+  } catch (error) {
+    console.log(error)
+    res.json({ status: 404 })
     }
 })
 
@@ -517,7 +518,7 @@ app.get('/api/getUsers', async (req, res) => {
 app.post('/api/invest', async (req, res) => {
   const token = req.headers['x-access-token']
   try {
-    const decode = jwt.verify(token, 'secret1258')
+    const decode = jwt.verify(token, jwtSecret)
     const email = decode.email
     const user = await User.findOne({ email: email })
 
@@ -525,16 +526,16 @@ app.post('/api/invest', async (req, res) => {
       switch (req.body.percent) {
         case '5%':
           return (req.body.amount * 5) / 100
-        case '7%':
-          return (req.body.amount * 7) / 100
-        case '9%':
-          return (req.body.amount * 9) / 100
-        case '11%':
-          return (req.body.amount * 11) / 100
         case '15%':
           return (req.body.amount * 15) / 100
-        case '18%':
-          return (req.body.amount * 18) / 100
+        case '20%':
+          return (req.body.amount * 20) / 100
+        case '25%':
+          return (req.body.amount * 25) / 100
+        case '30%':
+          return (req.body.amount * 30) / 100
+        case '35%':
+          return (req.body.amount * 35) / 100
       }
     })()
     if (user.capital >= req.body.amount) {
