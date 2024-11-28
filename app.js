@@ -167,8 +167,6 @@ app.get('/:id/refer', async(req,res)=>{
 
 app.get('/api/getData', async (req, res) => {
   const token = req.headers['x-access-token'];
-  console.log(token)
-
   try {
     // Ensure token is provided
     if (!token) {
@@ -178,7 +176,6 @@ app.get('/api/getData', async (req, res) => {
     // Verify token and decode user details
     const decoded = jwt.verify(token, jwtSecret); // Replace 'secret1258' with an environment variable for better security
     const email = decoded.email;
-    console.log(email)
 
     // Fetch user data
     const user = await User.findOne({ email });
