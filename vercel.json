@@ -6,10 +6,6 @@
       "destination": "/api"
     }
   ],
-  // "crons": [{
-  //   "path": "/api/cron",
-  //   "schedule": "0 * * * *"
-  // }],
     "headers": [
       {
         "source": "/(.*)",
