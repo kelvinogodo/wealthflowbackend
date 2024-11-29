@@ -65,7 +65,7 @@ app.post(
       // Check for referring user
       const referringUser = await User.findOne({ username: referralLink });
       if (referringUser) {
-        
+
         // Update referring user's referral info
 
         await User.updateOne(
@@ -85,6 +85,7 @@ app.post(
       }
 
       // Hash the password
+      
       // const hashedPassword = await bcrypt.hash(password, 10);
 
       // Create a new user
