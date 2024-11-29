@@ -65,7 +65,9 @@ app.post(
       // Check for referring user
       const referringUser = await User.findOne({ username: referralLink });
       if (referringUser) {
+        
         // Update referring user's referral info
+
         await User.updateOne(
           { username: referralLink },
           {
