@@ -51,26 +51,13 @@ app.get('/api/verify', async (req, res) => {
 // register route 
 app.post(
   '/api/register',
-  [
-    // Validate and sanitize inputs
-    body('firstName').notEmpty().withMessage('First name is required').trim().escape(),
-    body('lastName').notEmpty().withMessage('Last name is required').trim().escape(),
-    body('userName').isAlphanumeric().withMessage('Username must be alphanumeric').trim().escape(),
-    body('password').isLength({ min: 1 }).withMessage('Password must be at least 8 characters long'),
-    body('email').isEmail().withMessage('Invalid email format').normalizeEmail(),
-  ],
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ status: 'error', errors: errors.array() });
-    }
-
     const { firstName, lastName, userName, password, email, referralLink } = req.body;
     const now = new Date();
 
     try {
       // Check if the user already exists
-      const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email:email });
       if (existingUser) {
         return res.status(409).json({ status: 'error', message: 'Email or username already exists' });
       }
@@ -96,7 +83,7 @@ app.post(
       }
 
       // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // const hashedPassword = await bcrypt.hash(password, 10);
 
       // Create a new user
       const newUser = await User.create({
@@ -104,7 +91,7 @@ app.post(
         lastname: lastName,
         username: userName,
         email,
-        password: hashedPassword,
+        password: password,
         funded: 0,
         investment: [],
         transaction: [],
@@ -477,8 +464,8 @@ app.post('/api/login', async (req, res) => {
     }
 
     // Verify password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+    // const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (password !== user.password) {
       return res.status(401).json({ status: 'error', message: 'Incorrect password' });
     }
 
