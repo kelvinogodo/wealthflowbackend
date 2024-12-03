@@ -77,7 +77,7 @@ app.post(
                 lastname: lastName,
                 email: email,
                 date: now.toLocaleString(),
-                bonus: '10%',
+                refBonus: 500,
               },
             },
           }
