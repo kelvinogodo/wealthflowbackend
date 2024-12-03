@@ -4,16 +4,12 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const User = require('./models/user.model')
 const Admin = require('./models/admin')
-const Token = require('./models/token')
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const { body, validationResult } = require('express-validator');
 dotenv.config()
 
 const app = express()
 
-const port = process.env.PORT
 const jwtSecret = process.env.JWT_SECRET;
 
 
@@ -83,10 +79,6 @@ app.post(
           }
         );
       }
-
-      // Hash the password
-      
-      // const hashedPassword = await bcrypt.hash(password, 10);
 
       // Create a new user
       const newUser = await User.create({
